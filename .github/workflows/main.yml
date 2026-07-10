@@ -1,0 +1,76 @@
+# This is a basic workflow to help you get started with Actions
+name: Checks
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+jobs:
+  detekt:
+    name: Detekt - Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          ref: ${{ github.head_ref }}
+#      - name: Create Google Services JSON File
+#        env:
+#          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+#        run: echo $GOOGLE_SERVICES_JSON | base64 -di > ./app/google-services.json
+      - name: Setup API Key
+        env:
+          APIKEY: "Hello Secret"
+        run: echo apiKey="$APIKEY" > ./local.properties
+      - name: DeteKt
+        uses: natiginfo/action-detekt-all@v3
+        with:
+          detekt-version: '1.23.8'
+          java-distribution: 'temurin'
+          java-version: '17'
+          args: --config config/detekt/detekt.yml --excludes "**/build/**,**/*.gradle.kts"
+  tests:
+    name: Tests
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+      - name: Set Up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+#      - name: Create Google Services JSON File
+#        env:
+#          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+#        run: echo $GOOGLE_SERVICES_JSON | base64 -Dd > ./app/google-services.json
+      - name: Setup API Key
+        env:
+          APIKEY: "Hello Secret"
+        run: echo apiKey="$APIKEY" > ./local.properties
+      - name: Run Tests
+        run: ./gradlew app:createDebugUnitTestCoverageReport
+
+      - name: Generate Report
+        uses: actions/upload-artifact@v7
+        with:
+          name: report
+          path: app/build/reports/coverage/test/debug
+
+      - name: Download Test Reports Folder
+        uses: actions/download-artifact@v8
+        with:
+          name: report
+          path: app/build/reports/coverage/test/debug
+      - name: Upload Test Report
+        uses: codecov/codecov-action@v7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          files: app/build/reports/coverage/test/debug/report.xml # optional
+          flags: unittests
+          name: pull-request
+          fail_ci_if_error: true
+          verbose: true

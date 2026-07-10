@@ -13,5 +13,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "android-basic-skeleton"
+rootProject.name = "android-coroutine-storm"
 include(":app")

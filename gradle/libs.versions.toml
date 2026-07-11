@@ -7,6 +7,10 @@ detektGradlePlugin = "1.23.8"
 ksp = "2.3.9"
 googleSecretsPlugin = "2.0.1"
 automatticMeasureBuilds = "3.2.2"
+jankStats = "1.0.0"
+startup = "1.2.0"
+benchmarkMacro = "1.4.1"
+uiautomator = "2.3.0"
 # Core
 androidxComposeBom = "2026.06.01"
 activityCompose = "1.13.0"
@@ -69,6 +73,11 @@ test_ext = { module = "androidx.test.ext:junit", version.ref = "junitExt" }
 test_espresso = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
 ##Plugins
 dep-google-secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "googleSecretsPlugin" }
+# Storm PoC
+metrics_performance = { module = "androidx.metrics:metrics-performance", version.ref = "jankStats" }
+startup_runtime = { module = "androidx.startup:startup-runtime", version.ref = "startup" }
+benchmark_macro_junit4 = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "benchmarkMacro" }
+uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
 
 [bundles]
 compose = ["compose_ui", "compose_material3", "compose_tooling_preview", "compose_icons"]
@@ -79,6 +88,7 @@ retrofit = ["retrofit_core", "retrofit_gson"]
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlinGradlePlugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektGradlePlugin" }

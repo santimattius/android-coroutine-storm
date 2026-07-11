@@ -27,6 +27,19 @@ android {
         }
     }
 
+    flavorDimensions += "scenario"
+    productFlavors {
+        create("calm") {
+            dimension = "scenario"
+            buildConfigField("boolean", "STORM_AT_STARTUP", "false")
+        }
+        create("storm") {
+            dimension = "scenario"
+            applicationIdSuffix = ".storm"
+            buildConfigField("boolean", "STORM_AT_STARTUP", "true")
+        }
+    }
+
     buildTypes {
         getByName("debug") {
             isMinifyEnabled = false
@@ -39,6 +52,13 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        create("benchmark") {
+            initWith(getByName("release"))
+            isMinifyEnabled = false
+            isDebuggable = false
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += "release"
         }
     }
     testOptions {
@@ -59,6 +79,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     packaging {
@@ -118,6 +139,9 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.coil.core)
+
+    implementation(libs.metrics.performance)
+    implementation(libs.startup.runtime)
 
     testImplementation(platform(libs.compose.bom))
     testImplementation(libs.junit)

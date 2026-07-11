@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "android-coroutine-storm"
 include(":app")
+include(":macrobenchmark")

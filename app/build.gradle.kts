@@ -21,7 +21,7 @@ android {
         versionCode = extraString("version_code").toInt()
         versionName = extraString("version_name")
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.santimattius.basic.skeleton.CustomTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -150,5 +150,7 @@ dependencies {
     androidTestImplementation(libs.compose.ui.test.junit)
     androidTestImplementation(libs.test.ext)
     androidTestImplementation(libs.test.espresso)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.compiler)
 
 }

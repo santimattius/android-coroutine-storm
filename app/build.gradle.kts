@@ -48,6 +48,7 @@ android {
         }
         getByName("release") {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -56,6 +57,7 @@ android {
         create("benchmark") {
             initWith(getByName("release"))
             isMinifyEnabled = false
+            isShrinkResources = false
             isDebuggable = false
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += "release"
@@ -142,6 +144,7 @@ dependencies {
 
     implementation(libs.metrics.performance)
     implementation(libs.startup.runtime)
+    implementation(libs.profileinstaller)
 
     testImplementation(platform(libs.compose.bom))
     testImplementation(libs.junit)

@@ -11,6 +11,7 @@ jankStats = "1.0.0"
 startup = "1.2.0"
 benchmarkMacro = "1.4.1"
 uiautomator = "2.3.0"
+profileinstaller = "1.4.1"
 # Core
 androidxComposeBom = "2026.06.01"
 activityCompose = "1.13.0"
@@ -79,6 +80,7 @@ metrics_performance = { module = "androidx.metrics:metrics-performance", version
 startup_runtime = { module = "androidx.startup:startup-runtime", version.ref = "startup" }
 benchmark_macro_junit4 = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "benchmarkMacro" }
 uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
+profileinstaller = { module = "androidx.profileinstaller:profileinstaller", version.ref = "profileinstaller" }
 
 [bundles]
 compose = ["compose_ui", "compose_material3", "compose_tooling_preview", "compose_icons"]

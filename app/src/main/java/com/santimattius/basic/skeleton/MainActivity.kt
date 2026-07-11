@@ -43,16 +43,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setContent {
+            BasicSkeletonContainer {
+                StormScreen()
+            }
+        }
+
         jankStats = JankStats.createAndTrack(window) { frame ->
             if (frame.isJank) {
                 stormMetrics.jankReporter.onJank()
                 Log.w(TAG, "Janky frame: ${frame.frameDurationUiNanos / NANOS_PER_MILLI_DOUBLE} ms")
-            }
-        }
-
-        setContent {
-            BasicSkeletonContainer {
-                StormScreen()
             }
         }
     }

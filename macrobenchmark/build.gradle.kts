@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.test)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -48,6 +49,12 @@ android {
 
 kotlin {
     jvmToolchain(17)
+}
+
+detekt {
+    config.setFrom("${project.rootDir}/config/detekt/detekt.yml")
+    baseline = file("$rootDir/detekt-baseline.xml")
+    autoCorrect = true
 }
 
 dependencies {

@@ -85,7 +85,7 @@ private fun StormContent(
         }
         Spacer(Modifier.height(StormDimens.SPACER_SMALL))
         Button(onClick = onRunStructured, modifier = Modifier.fillMaxWidth()) {
-            Text("Run structured (Semaphore-bound)")
+            Text("Run structured (bounded concurrency)")
         }
         Spacer(Modifier.height(StormDimens.SPACER_SMALL))
         OutlinedButton(onClick = onReset, modifier = Modifier.fillMaxWidth()) {

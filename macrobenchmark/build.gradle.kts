@@ -12,6 +12,11 @@ android {
         targetSdk = 37
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        // Android 15 tightened "stopped state" semantics (apps only leave it via direct/indirect
+        // user action), so the profileinstaller broadcast Macrobenchmark sends right after its
+        // own force-stop between COLD iterations can be dropped by the platform on some devices.
+        // Tolerate that instead of failing the whole benchmark run.
+        testInstrumentationRunnerArguments["androidx.benchmark.dropShaders.throwOnFailure"] = "false"
     }
 
     buildFeatures {

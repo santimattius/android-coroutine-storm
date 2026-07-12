@@ -5,7 +5,7 @@
 [![AGP 9.2.1](https://img.shields.io/badge/AGP-9.2.1-blue.svg)](https://developer.android.com/build/releases/gradle-plugin)
 [![Kotlin 2.4.0](https://img.shields.io/badge/Kotlin-2.4.0-purple.svg)](https://kotlinlang.org/docs/whatsnew20.html)
 
-A hands-on PoC that demonstrates **coroutine storms**: what happens when an unbounded fan-out of coroutines floods `Dispatchers.Default`/`Dispatchers.IO` and starves the main thread of CPU cores, even though no coroutine ever touches the main thread directly. The project started from a production-ready Compose/Hilt skeleton and now ships the full storm lab described in [`docs/poc-coroutine-storm.md`](docs/poc-coroutine-storm.md): live `queueDelay`/concurrency instrumentation, JankStats jank counting, an App Startup–driven storm, and a Macrobenchmark suite that measures the damage on a real device.
+A hands-on PoC that demonstrates **coroutine storms**: what happens when an unbounded fan-out of coroutines floods `Dispatchers.Default`/`Dispatchers.IO` and starves the main thread of CPU cores, even though no coroutine ever touches the main thread directly. The project started from a production-ready Compose/Hilt skeleton and now ships the full storm lab described in [this Medium post]( ): live `queueDelay`/concurrency instrumentation, JankStats jank counting, an App Startup–driven storm, and a Macrobenchmark suite that measures the damage on a real device.
 
 ## 🎯 What you can see and measure
 
@@ -49,8 +49,6 @@ A hands-on PoC that demonstrates **coroutine storms**: what happens when an unbo
 ├── config/                        # Detekt configuration
 ├── gradle/
 │   └── libs.versions.toml         # Centralized dependency management
-├── docs/
-│   └── poc-coroutine-storm.md     # Full write-up this PoC implements
 └── plugins/                        # Custom build plugins
 ```
 

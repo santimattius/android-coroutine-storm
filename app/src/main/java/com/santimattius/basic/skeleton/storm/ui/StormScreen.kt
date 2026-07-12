@@ -66,9 +66,6 @@ private fun StormContent(
     onReset: () -> Unit,
 ) {
     Column(Modifier.fillMaxSize().padding(StormDimens.SCREEN_PADDING)) {
-        Text("Coroutine Storm Lab", style = MaterialTheme.typography.titleLarge)
-        Spacer(Modifier.height(StormDimens.SPACER_LARGE))
-
         Box(
             Modifier
                 .size(StormDimens.BOX_SIZE)

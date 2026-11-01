@@ -94,6 +94,9 @@ android {
 // Ensure compatibility with Kotlin 2.x
 kotlin {
     jvmToolchain(17)
+    compilerOptions {
+        optIn.add("io.github.santimattius.structured.runtime.ExperimentalStructuredCoroutines")
+    }
 }
 
 composeCompiler {
@@ -131,7 +134,9 @@ dependencies {
     debugImplementation(libs.bundles.compose.debug)
 
     implementation(libs.bundles.coroutine)
+    implementation(libs.structured.runtime)
     testImplementation(libs.coroutine.test)
+    testImplementation(libs.structured.runtime.test)
     implementation(libs.bundles.retrofit)
     implementation(libs.gson.core)
     testImplementation(libs.mockwebserver)

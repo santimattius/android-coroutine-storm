@@ -46,4 +46,14 @@ class StormViewModel @Inject constructor(
             )
         }
     }
+
+    fun runParallelBounded() {
+        appScope.launch {
+            StormLab.parallelBounded(
+                metrics.ioInstrumented,
+                StormConstants.STORM_COROUTINE_COUNT,
+                StormConstants.STRUCTURED_PERMITS,
+            )
+        }
+    }
 }

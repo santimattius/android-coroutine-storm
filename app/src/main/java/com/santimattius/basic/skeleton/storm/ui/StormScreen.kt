@@ -51,19 +51,27 @@ fun StormScreen(viewModel: StormViewModel = hiltViewModel<StormViewModel>()) {
     StormContent(
         angle = angle,
         metrics = metrics,
-        onUnleashStorm = viewModel::unleashStorm,
-        onRunStructured = viewModel::runStructured,
-        onReset = viewModel::reset,
+        actions = StormActions(
+            onUnleashStorm = viewModel::unleashStorm,
+            onRunStructured = viewModel::runStructured,
+            onRunParallel = viewModel::runParallelBounded,
+            onReset = viewModel::reset,
+        ),
     )
 }
+
+private class StormActions(
+    val onUnleashStorm: () -> Unit,
+    val onRunStructured: () -> Unit,
+    val onRunParallel: () -> Unit,
+    val onReset: () -> Unit,
+)
 
 @Composable
 private fun StormContent(
     angle: Float,
     metrics: MetricsSnapshot,
-    onUnleashStorm: () -> Unit,
-    onRunStructured: () -> Unit,
-    onReset: () -> Unit,
+    actions: StormActions,
 ) {
     Column(Modifier.fillMaxSize().padding(StormDimens.SCREEN_PADDING)) {
         Box(
@@ -77,15 +85,19 @@ private fun StormContent(
         MetricsPanel(metrics)
         Spacer(Modifier.height(StormDimens.SPACER_LARGE))
 
-        Button(onClick = onUnleashStorm, modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = actions.onUnleashStorm, modifier = Modifier.fillMaxWidth()) {
             Text("Unleash storm (unbounded)")
         }
         Spacer(Modifier.height(StormDimens.SPACER_SMALL))
-        Button(onClick = onRunStructured, modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = actions.onRunStructured, modifier = Modifier.fillMaxWidth()) {
             Text("Run structured (bounded concurrency)")
         }
         Spacer(Modifier.height(StormDimens.SPACER_SMALL))
-        OutlinedButton(onClick = onReset, modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = actions.onRunParallel, modifier = Modifier.fillMaxWidth()) {
+            Text("Run runtime parallel(concurrency = n)")
+        }
+        Spacer(Modifier.height(StormDimens.SPACER_SMALL))
+        OutlinedButton(onClick = actions.onReset, modifier = Modifier.fillMaxWidth()) {
             Text("Reset metrics")
         }
     }

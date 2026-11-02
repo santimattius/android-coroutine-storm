@@ -25,6 +25,7 @@ gson = "2.14.0"
 hilt = "2.60"
 hiltCompose = "1.4.0"
 coil = "2.7.0"
+structuredRuntime = "0.1.0-ALPHA02"
 
 # Testing
 junit = "4.13.2"
@@ -61,6 +62,9 @@ coil_core = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coroutine_core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine" }
 coroutine_android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutine" }
 coroutine_test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutine" }
+# Structured Coroutines runtime (local ~/.m2 until published to Maven Central)
+structured_runtime = { module = "io.github.santimattius:structured-coroutines-runtime", version.ref = "structuredRuntime" }
+structured_runtime_test = { module = "io.github.santimattius:structured-coroutines-runtime-test", version.ref = "structuredRuntime" }
 # Hilt
 hilt_android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt_compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }

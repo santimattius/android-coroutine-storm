@@ -7,12 +7,25 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.metrics.performance.JankStats
+import com.santimattius.basic.skeleton.runtime.ui.RuntimeValidationScreen
 import com.santimattius.basic.skeleton.storm.instrumentation.StormMetrics
 import com.santimattius.basic.skeleton.storm.ui.StormScreen
 import com.santimattius.basic.skeleton.ui.component.AppBar
@@ -63,13 +76,31 @@ class MainActivity : ComponentActivity() {
 }
 
 
+private enum class MainTab(val label: String, val icon: ImageVector) {
+    STORM("Storm", Icons.Filled.Bolt),
+    RUNTIME("Runtime", Icons.Filled.CheckCircle),
+}
+
 @Composable
 fun MainScreen() {
+    var selectedTab by rememberSaveable { mutableStateOf(MainTab.STORM) }
     Scaffold(
         topBar = {
             AppBar(
                 title = stringResource(id = R.string.app_name),
             )
+        },
+        bottomBar = {
+            NavigationBar {
+                MainTab.entries.forEach { tab ->
+                    NavigationBarItem(
+                        selected = tab == selectedTab,
+                        onClick = { selectedTab = tab },
+                        icon = { Icon(tab.icon, contentDescription = tab.label) },
+                        label = { Text(tab.label) },
+                    )
+                }
+            }
         },
     ) {
         Box(
@@ -77,7 +108,10 @@ fun MainScreen() {
                 .fillMaxSize()
                 .padding(it),
         ) {
-            StormScreen()
+            when (selectedTab) {
+                MainTab.STORM -> StormScreen()
+                MainTab.RUNTIME -> RuntimeValidationScreen()
+            }
         }
     }
 }

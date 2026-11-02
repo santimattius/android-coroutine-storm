@@ -25,7 +25,7 @@ gson = "2.14.0"
 hilt = "2.60"
 hiltCompose = "1.4.0"
 coil = "2.7.0"
-structuredRuntime = "0.1.0-ALPHA01"
+structuredRuntime = "0.1.0-ALPHA02"
 
 # Testing
 junit = "4.13.2"

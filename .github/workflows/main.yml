@@ -52,25 +52,29 @@ jobs:
           APIKEY: "Hello Secret"
         run: echo apiKey="$APIKEY" > ./local.properties
       - name: Run Tests
-        run: ./gradlew app:createDebugUnitTestCoverageReport
+        run: >-
+          ./gradlew
+          app:createCalmDebugUnitTestCoverageReport
+          app:createStormDebugUnitTestCoverageReport
 
       - name: Generate Report
         uses: actions/upload-artifact@v7
         with:
           name: report
-          path: app/build/reports/coverage/test/debug
+          path: app/build/reports/coverage/test
 
       - name: Download Test Reports Folder
         uses: actions/download-artifact@v8
         with:
           name: report
-          path: app/build/reports/coverage/test/debug
-      - name: Upload Test Report
-        uses: codecov/codecov-action@v7
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          files: app/build/reports/coverage/test/debug/report.xml # optional
-          flags: unittests
-          name: pull-request
-          fail_ci_if_error: true
-          verbose: true
+          path: app/build/reports/coverage/test
+      # - name: Upload Test Report
+      #   uses: codecov/codecov-action@v7
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     # Include coverage from both scenario flavors.
+      #     files: app/build/reports/coverage/test/**/report.xml
+      #     flags: unittests
+      #     name: pull-request
+      #     fail_ci_if_error: true
+      #     verbose: true

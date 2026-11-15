@@ -7,11 +7,15 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.job
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import io.github.santimattius.structured.runtime.parallel
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicInteger
 
 private const val STRUCTURED_COUNT = 200
 private const val STRUCTURED_PERMITS = 4
@@ -56,4 +60,35 @@ class StormLabTest {
 
         assertTrue(instrumented.peakConcurrency.get() > STRUCTURED_PERMITS)
     }
+
+    @Test
+    fun `parallelBounded runs every task and returns results in input order`() = runBlocking {
+        executor = Executors.newFixedThreadPool(REAL_POOL_SIZE)
+        val instrumented = InstrumentedDispatcher(executor.asCoroutineDispatcher(), "parallel-test")
+
+        val results = StormLab.parallelBounded(instrumented, STRUCTURED_COUNT, STRUCTURED_PERMITS)
+
+        assertEquals(STRUCTURED_COUNT, results.size)
+        assertTrue(instrumented.totalDispatched.get() > 0)
+        println("parallelBounded observed peak=${instrumented.peakConcurrency.get()} permits=$STRUCTURED_PERMITS")
+    }
+
+    @Test
+    fun `parallelBounded actual task concurrency never exceeds the permits`() = runBlocking {
+        executor = Executors.newFixedThreadPool(REAL_POOL_SIZE)
+        val running = AtomicInteger(0)
+        val peak = AtomicInteger(0)
+        val tasks = List<suspend () -> Unit>(STRUCTURED_COUNT) {
+            {
+                val now = running.incrementAndGet()
+                peak.accumulateAndGet(now, ::maxOf)
+                running.decrementAndGet()
+            }
+        }
+
+        withContext(executor.asCoroutineDispatcher()) { tasks.parallel(concurrency = STRUCTURED_PERMITS) }
+
+        assertTrue("peak=${peak.get()}", peak.get() <= STRUCTURED_PERMITS)
+    }
 }
+

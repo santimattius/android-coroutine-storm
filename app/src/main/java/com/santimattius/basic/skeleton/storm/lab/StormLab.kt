@@ -1,10 +1,12 @@
 package com.santimattius.basic.skeleton.storm.lab
 
 import com.santimattius.basic.skeleton.storm.StormConstants
+import io.github.santimattius.structured.runtime.parallel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
@@ -65,4 +67,18 @@ object StormLab {
             }
         }
     }
+
+    /**
+     * Third scenario: same total work bounded with the runtime's `parallel(concurrency = permits)`.
+     *
+     * Unlike [structured], this hands work off through the runtime's semaphore, so the
+     * [com.santimattius.basic.skeleton.storm.instrumentation.InstrumentedDispatcher] peak can read
+     * slightly above [permits] (the hand-off race described on [structured]); the bound itself is
+     * enforced by the semaphore, not by the dispatcher count.
+     */
+    suspend fun parallelBounded(dispatcher: CoroutineDispatcher, count: Int, permits: Int): List<Long> =
+        withContext(dispatcher) {
+            List<suspend () -> Long>(count) { { burnCpu().also { blackHole += it } } }
+                .parallel(concurrency = permits)
+        }
 }

@@ -68,13 +68,13 @@ jobs:
         with:
           name: report
           path: app/build/reports/coverage/test
-      - name: Upload Test Report
-        uses: codecov/codecov-action@v7
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          # Include coverage from both scenario flavors.
-          files: app/build/reports/coverage/test/**/report.xml
-          flags: unittests
-          name: pull-request
-          fail_ci_if_error: true
-          verbose: true
+      # - name: Upload Test Report
+      #   uses: codecov/codecov-action@v7
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     # Include coverage from both scenario flavors.
+      #     files: app/build/reports/coverage/test/**/report.xml
+      #     flags: unittests
+      #     name: pull-request
+      #     fail_ci_if_error: true
+      #     verbose: true

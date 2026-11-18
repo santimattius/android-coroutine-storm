@@ -3,7 +3,11 @@ package com.santimattius.basic.skeleton.storm.di
 import com.santimattius.basic.skeleton.storm.instrumentation.StormMetrics
 import dagger.Module
 import dagger.Provides
+import android.content.Context
+import com.santimattius.basic.skeleton.storm.instrumentation.StormPerfettoTracing
+import com.santimattius.basic.skeleton.storm.instrumentation.stormTraceSink
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,5 +30,11 @@ object StormModule {
 
     @Provides
     @Singleton
-    fun provideStormMetrics(): StormMetrics = StormMetrics()
+    fun provideStormPerfettoTracing(@ApplicationContext context: Context): StormPerfettoTracing =
+        StormPerfettoTracing(context)
+
+    @Provides
+    @Singleton
+    fun provideStormMetrics(perfetto: StormPerfettoTracing): StormMetrics =
+        StormMetrics(stormTraceSink(perfetto.sink))
 }

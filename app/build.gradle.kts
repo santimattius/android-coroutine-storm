@@ -135,6 +135,8 @@ dependencies {
 
     implementation(libs.bundles.coroutine)
     implementation(libs.structured.runtime)
+    implementation(libs.structured.runtime.tracing)
+    implementation(libs.androidx.tracing.wire)
     testImplementation(libs.coroutine.test)
     testImplementation(libs.structured.runtime.test)
     implementation(libs.bundles.retrofit)

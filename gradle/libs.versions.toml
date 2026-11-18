@@ -25,6 +25,7 @@ gson = "2.14.0"
 hilt = "2.60"
 hiltCompose = "1.4.0"
 coil = "2.7.0"
+androidxTracing = "2.0.5"
 structuredRuntime = "0.1.0-RC01"
 
 # Testing
@@ -65,6 +66,9 @@ coroutine_test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", ver
 # Structured Coroutines runtime (published independently on Maven Central)
 structured_runtime = { module = "io.github.santimattius:structured-coroutines-runtime", version.ref = "structuredRuntime" }
 structured_runtime_test = { module = "io.github.santimattius:structured-coroutines-runtime-test", version.ref = "structuredRuntime" }
+structured_runtime_tracing = { module = "io.github.santimattius:structured-coroutines-runtime-tracing", version.ref = "structuredRuntime" }
+# androidx.tracing driver (owns the in-process Perfetto file that PerfettoTraceSink writes to)
+androidx_tracing_wire = { module = "androidx.tracing:tracing-wire", version.ref = "androidxTracing" }
 # Hilt
 hilt_android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt_compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
